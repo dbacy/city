@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head lang="en">
+    <title>${title}</title>
+</head>
+<body>
+
+<h2>Edge Tech Academy</h2>
+<h4 th:text="'Cities in: ' + ${district}"></h4>
+<h5 th:text="'Total Population: ' + ${population}"></h5>
+
+<table class="table table-striped">
+    <tr>
+        <th>City Name</th>
+        <th>District</th>
+        <th>Population</th>
+    </tr>
+    <tr th:each="city : ${cities}">
+        <td th:text="${city.name}">City Name</td>
+        <td th:text="${city.district}">District</td>
+        <td th:text="${city.population}">Population</td>
+    </tr>
+</table>
+
+</body>
+</html>
