@@ -1,8 +1,8 @@
 package com.edgetech.controllers;
 
 import com.edgetech.models.City;
-//import com.edgetech.models.Country;
 import com.edgetech.models.Country;
+import com.edgetech.models.CountryLanguage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,7 +75,7 @@ public class IndexController {
             query += "ORDER BY Name";
 
             ResultSet results = stmt.executeQuery(query);
-            //  retrieve all rows from the result set
+
             while (results.next()) {
                 population += results.getInt("population");
                 Country country = new Country(results.getString("name"), results.getString("continent"),
@@ -97,4 +97,41 @@ public class IndexController {
 
         return "countries";
     }
+
+   // http://localhost:8080/continents?continent=asia
+
+    @RequestMapping("languages")
+    public String bbb(@RequestParam String language, Model model) throws Exception {
+
+        List<CountryLanguage> countrylanguages = new ArrayList<>();
+        float percentage = 0.0f;
+
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT CountryCode, Language, Percentage FROM CountryLanguage ";
+            if (language != null && language.length() > 0)
+                query += "WHERE language like '%" + language + "%' ";
+            query += "ORDER BY CountryCode";
+
+            ResultSet results = stmt.executeQuery(query);
+
+            while (results.next()) {
+                percentage += results.getFloat("percentage");
+                CountryLanguage countrylanguage = new CountryLanguage(results.getString("countryCode"), results.getString("language"),
+                        results.getFloat("percentage"));
+                countrylanguages.add(countrylanguage);
+            }
+        } catch (Exception except) {
+            System.out.println(except.getMessage());
+            SQLException ex = new SQLException("Query or Connection Failed: " + except.getMessage());
+        }
+        model.addAttribute("title", "First JDBC Application");
+        model.addAttribute("countryLanguages", countrylanguages);
+        model.addAttribute("languages",language);
+        model.addAttribute("percentages",percentage);
+        return "languages";
+    }
+
+    // http://localhost:8080/languages?language
+
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head lang="en">
+    <title>${title}</title>
+</head>
+<body>
+
+<h2>Edge Tech Academy</h2>
+<h4 th:text="'Films in: ' + ${rating}"></h4>
+
+
+<table class="table table-striped">
+    <tr>
+        <th>Film Name</th>
+        <th>Rating</th>
+        <th>Length</th>
+        <th>Rental Rate</th>
+        <th>Release Year</th>
+        <th>Category</th>
+    </tr>
+    <tr th:each="film : ${films}">
+        <td th:text="${film.title}">Film Title</td>
+        <td th:text="${film.rating}">Rating</td>
+        <td th:text="${film.length}">Length</td>
+        <td th:text="${film.rentalRate}">Rental Rate</td>
+        <td th:text="${film.releaseYear}">Release Year</td>
+        <td th:text="${film.category}">Category</td>
+    </tr>
+</table>
+
+</body>
+</html>
